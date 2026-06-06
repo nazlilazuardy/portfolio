@@ -1,0 +1,1532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nazli Lazuardy — Network & Infrastructure Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+/* =========================================
+   RESET & BASE
+   ========================================= */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { background: #06090f;  scroll-behavior: smooth; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: transparent;
+  color: #e8edf5;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* =========================================
+   CSS VARIABLES
+   ========================================= */
+:root {
+  --navy: #06090f;
+  --navy-2: #0c1220;
+  --navy-3: #111827;
+  --navy-4: #1a2436;
+  --blue: #3b82f6;
+  --blue-dim: #1d4ed8;
+  --cyan: #22d3ee;
+  --cyan-dim: #0891b2;
+  --text-primary: #f0f4fc;
+  --text-secondary: #94a3b8;
+  --text-muted: #4b5d73;
+  --border: rgba(255,255,255,0.07);
+  --border-hover: rgba(59,130,246,0.3);
+  --glow: rgba(59,130,246,0.15);
+}
+
+/* =========================================
+   SCROLLBAR
+   ========================================= */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--navy); }
+::-webkit-scrollbar-thumb { background: var(--navy-4); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--blue-dim); }
+
+/* =========================================
+   BACKGROUND GRID
+   ========================================= */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(59,130,246,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(59,130,246,0.03) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* =========================================
+   LAYOUT
+   ========================================= */
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 24px;
+  position: relative;
+  z-index: 1;
+}
+
+/* =========================================
+   NAV
+   ========================================= */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: rgba(6,9,15,0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+}
+.nav-logo {
+  font-family: 'DM Serif Display', serif;
+  font-size: 18px;
+  color: var(--text-primary);
+  letter-spacing: -0.3px;
+}
+.nav-logo span { color: var(--cyan); }
+.nav-links {
+  display: flex;
+  gap: 28px;
+  list-style: none;
+}
+.nav-links a {
+  font-size: 13px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  letter-spacing: 0.3px;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--text-primary); }
+
+/* =========================================
+   HERO
+   ========================================= */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 120px 0 80px;
+  position: relative;
+}
+.hero-glow {
+  position: absolute;
+  top: 20%;
+  right: -10%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(59,130,246,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-glow-2 {
+  position: absolute;
+  bottom: 10%;
+  left: -5%;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(34,211,238,0.05) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-eyebrow {
+  font-size: 11px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--cyan);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  opacity: 0;
+  animation: fadeUp 0.6s ease 0.1s forwards;
+}
+.hero-eyebrow::before {
+  content: '';
+  display: block;
+  width: 32px;
+  height: 1px;
+  background: var(--cyan);
+}
+.hero-name {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(44px, 7vw, 72px);
+  line-height: 1.05;
+  letter-spacing: -2px;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+  opacity: 0;
+  animation: fadeUp 0.6s ease 0.2s forwards;
+}
+.hero-name em {
+  font-style: italic;
+  color: var(--cyan);
+}
+.hero-role {
+  font-size: 18px;
+  font-weight: 300;
+  color: var(--text-secondary);
+  margin-bottom: 32px;
+  max-width: 540px;
+  line-height: 1.6;
+  opacity: 0;
+  animation: fadeUp 0.6s ease 0.3s forwards;
+}
+.hero-stats {
+  display: flex;
+  gap: 40px;
+  margin-bottom: 40px;
+  opacity: 0;
+  animation: fadeUp 0.6s ease 0.4s forwards;
+}
+.hero-stat-num {
+  font-family: 'DM Serif Display', serif;
+  font-size: 36px;
+  color: var(--text-primary);
+  line-height: 1;
+}
+.hero-stat-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-top: 4px;
+}
+.hero-stat-divider {
+  width: 1px;
+  background: var(--border);
+  align-self: stretch;
+}
+.hero-cta {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  opacity: 0;
+  animation: fadeUp 0.6s ease 0.5s forwards;
+}
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--blue);
+  color: #fff;
+  text-decoration: none;
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-size: 13.5px;
+  font-weight: 500;
+  transition: background 0.2s, transform 0.15s;
+}
+.btn-primary:hover { background: var(--blue-dim); transform: translateY(-1px); }
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  color: var(--text-secondary);
+  text-decoration: none;
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-size: 13.5px;
+  border: 1px solid var(--border);
+  transition: border-color 0.2s, color 0.2s, transform 0.15s;
+}
+.btn-outline:hover { border-color: var(--border-hover); color: var(--text-primary); transform: translateY(-1px); }
+
+/* =========================================
+   SECTION COMMON
+   ========================================= */
+section { padding: 80px 0; }
+.section-label {
+  font-size: 10.5px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--cyan);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.section-label::before {
+  content: '';
+  display: block;
+  width: 24px;
+  height: 1px;
+  background: var(--cyan);
+}
+.section-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(28px, 4vw, 38px);
+  letter-spacing: -1px;
+  color: var(--text-primary);
+  margin-bottom: 48px;
+  line-height: 1.15;
+}
+
+/* =========================================
+   EXPERIENCE
+   ========================================= */
+#experience { background: rgba(6,9,15,0.80); }
+.exp-list { display: flex; flex-direction: column; gap: 2px; }
+.exp-item {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: border-color 0.3s;
+  background: rgba(12,18,32,0.86);
+}
+.exp-item:hover { border-color: var(--border-hover); }
+.exp-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 22px 24px;
+  cursor: pointer;
+  user-select: none;
+}
+.exp-left { flex: 1; }
+.exp-role {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+.exp-company {
+  font-size: 12.5px;
+  color: var(--blue);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.exp-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--cyan);
+}
+.exp-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+.exp-period {
+  font-size: 11px;
+  color: var(--text-muted);
+  background: rgba(255,255,255,0.04);
+  padding: 4px 10px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  white-space: nowrap;
+}
+.exp-chevron {
+  width: 18px;
+  height: 18px;
+  color: var(--text-muted);
+  transition: transform 0.3s;
+}
+.exp-item.open .exp-chevron { transform: rotate(180deg); }
+.exp-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+}
+.exp-item.open .exp-body { max-height: 600px; }
+.exp-body-inner {
+  padding: 0 24px 22px;
+  border-top: 1px solid var(--border);
+  margin-top: 0;
+  padding-top: 18px;
+}
+.exp-highlights {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+.exp-highlights li {
+  font-size: 13px;
+  color: var(--text-secondary);
+  padding-left: 18px;
+  position: relative;
+  line-height: 1.6;
+}
+.exp-highlights li::before {
+  content: '▸';
+  position: absolute;
+  left: 0;
+  color: var(--cyan);
+  font-size: 10px;
+  top: 4px;
+}
+.exp-tools { display: flex; flex-wrap: wrap; gap: 6px; }
+.tool-chip {
+  font-size: 10.5px;
+  padding: 3px 9px;
+  background: rgba(59,130,246,0.08);
+  color: #93c5fd;
+  border: 1px solid rgba(59,130,246,0.2);
+  border-radius: 4px;
+}
+
+/* =========================================
+   SKILLS
+   ========================================= */
+#skills { background: rgba(17,24,39,0.80); }
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+.skill-card {
+  background: rgba(12,18,32,0.86);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px 22px;
+  transition: border-color 0.3s, transform 0.2s;
+}
+.skill-card:hover { border-color: var(--border-hover); transform: translateY(-2px); }
+.skill-card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.skill-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  background: rgba(59,130,246,0.1);
+  border: 1px solid rgba(59,130,246,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.skill-icon svg { width: 16px; height: 16px; stroke: var(--blue); fill: none; stroke-width: 1.5; }
+.skill-card-title {
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+.skill-pills { display: flex; flex-wrap: wrap; gap: 6px; }
+.skill-pill {
+  font-size: 11px;
+  padding: 4px 10px;
+  background: rgba(255,255,255,0.04);
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+}
+
+/* =========================================
+   CERTIFICATIONS
+   ========================================= */
+#certifications { background: rgba(6,9,15,0.80); }
+.certs-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+.cert-card {
+  background: rgba(12,18,32,0.86);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 18px 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  transition: border-color 0.3s;
+}
+.cert-card:hover { border-color: var(--border-hover); }
+.cert-badge {
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  background: rgba(34,211,238,0.08);
+  border: 1px solid rgba(34,211,238,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.cert-badge svg { width: 18px; height: 18px; stroke: var(--cyan); fill: none; stroke-width: 1.5; }
+.cert-name { font-size: 13px; font-weight: 500; color: var(--text-primary); margin-bottom: 4px; }
+.cert-meta { font-size: 11px; color: var(--text-muted); }
+
+/* =========================================
+   EDUCATION
+   ========================================= */
+#education { background: rgba(17,24,39,0.80); }
+.edu-cards { display: flex; flex-direction: column; gap: 14px; }
+.edu-card {
+  background: rgba(12,18,32,0.86);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 22px 24px;
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+  transition: border-color 0.3s;
+}
+.edu-card:hover { border-color: var(--border-hover); }
+.edu-badge {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: rgba(59,130,246,0.1);
+  border: 1px solid rgba(59,130,246,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.edu-badge svg { width: 20px; height: 20px; stroke: var(--blue); fill: none; stroke-width: 1.5; }
+.edu-degree { font-size: 15px; font-weight: 500; color: var(--text-primary); margin-bottom: 4px; }
+.edu-univ { font-size: 13px; color: var(--blue); margin-bottom: 4px; }
+.edu-period { font-size: 11.5px; color: var(--text-muted); }
+.edu-gpa {
+  display: inline-block;
+  margin-top: 8px;
+  font-size: 11px;
+  padding: 3px 10px;
+  background: rgba(34,197,94,0.1);
+  color: #4ade80;
+  border: 1px solid rgba(34,197,94,0.2);
+  border-radius: 20px;
+}
+
+/* =========================================
+   CONTACT / FOOTER
+   ========================================= */
+#contact { background: rgba(6,9,15,0.82); padding-bottom: 40px; }
+.contact-box {
+  background: rgba(12,18,32,0.90);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 48px 40px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.contact-box::before {
+  content: '';
+  position: absolute;
+  top: -80px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 300px;
+  height: 200px;
+  background: radial-gradient(ellipse, rgba(59,130,246,0.08) 0%, transparent 70%);
+}
+.contact-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 34px;
+  color: var(--text-primary);
+  letter-spacing: -1px;
+  margin-bottom: 12px;
+}
+.contact-sub {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 32px;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.contact-links {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.contact-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 13px;
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  background: rgba(255,255,255,0.03);
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+.contact-link:hover { border-color: var(--border-hover); color: var(--text-primary); background: rgba(59,130,246,0.05); }
+.contact-link svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 1.5; }
+
+footer {
+  text-align: center;
+  padding: 24px;
+  font-size: 11px;
+  color: var(--text-muted);
+  border-top: 1px solid var(--border);
+  position: relative;
+  z-index: 1;
+}
+
+/* =========================================
+   ANIMATIONS
+   ========================================= */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* =========================================
+   RESPONSIVE
+   ========================================= */
+@media (max-width: 640px) {
+  .hero-stats { gap: 20px; }
+  .hero-stat-num { font-size: 26px; }
+  .skills-grid, .certs-grid { grid-template-columns: 1fr; }
+  .nav-links { display: none; }
+  .exp-header { flex-direction: column; gap: 10px; }
+  .exp-right { align-self: flex-start; }
+  .contact-box { padding: 32px 20px; }
+}
+
+/* ── 3D BACKGROUND CANVAS ── */
+#bg-net {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 1;
+}
+
+/* ── PERSPECTIVE on container for 3D card tilts ── */
+.skills-grid,
+.certs-grid,
+.edu-cards,
+.exp-list {
+  perspective: 1200px;
+  perspective-origin: center center;
+}
+
+/* ── 3D TILT CARDS ── */
+.skill-card,
+.cert-card,
+.edu-card {
+  transition: transform 0.25s ease, border-color 0.3s, box-shadow 0.3s !important;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+.skill-card:hover,
+.cert-card:hover,
+.edu-card:hover {
+  border-color: var(--border-hover) !important;
+  box-shadow: 0 20px 60px rgba(34,211,238,0.12), 0 8px 24px rgba(0,0,0,0.4) !important;
+  transform: translateY(-4px) !important;
+}
+
+/* ── EXP CARDS 3D ── */
+.exp-item {
+  transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s !important;
+  transform-style: preserve-3d;
+}
+.exp-item:hover {
+  border-color: var(--border-hover) !important;
+  box-shadow: 0 12px 40px rgba(59,130,246,0.10), 0 4px 16px rgba(0,0,0,0.35) !important;
+  transform: translateX(4px) !important;
+}
+
+/* ── HERO NAME 3D depth effect ── */
+.hero-name {
+  text-shadow: 0 0 0 transparent;
+  transition: text-shadow 0.4s ease;
+}
+.hero-name:hover {
+  text-shadow:
+    1px 1px 0 rgba(34,211,238,0.35),
+    2px 2px 0 rgba(34,211,238,0.20),
+    3px 3px 0 rgba(34,211,238,0.10),
+    4px 4px 12px rgba(34,211,238,0.08);
+}
+
+/* ── HERO STATS pulse on enter ── */
+.hero-stat-num {
+  transition: color 0.3s, text-shadow 0.3s;
+}
+.hero-stat-num:hover {
+  color: var(--cyan) !important;
+  text-shadow: 0 0 20px rgba(34,211,238,0.5);
+}
+
+/* ── SECTION title underline 3D slide ── */
+.section-title {
+  position: relative;
+}
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--cyan), var(--blue));
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: scaleX(1);
+  transform-origin: left;
+}
+.section-title.visible::after {
+  width: 60px;
+}
+
+/* ── CONTACT BOX 3D glow depth ── */
+.contact-box {
+  transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+}
+.contact-box:hover {
+  transform: translateY(-3px) !important;
+  box-shadow: 0 24px 80px rgba(59,130,246,0.12), 0 8px 32px rgba(0,0,0,0.4) !important;
+}
+
+/* ── REVEAL animations with 3D depth ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(32px) rotateX(6deg);
+  transform-origin: top center;
+  perspective: 800px;
+  transition: opacity 0.65s ease, transform 0.65s cubic-bezier(0.34,1.56,0.64,1);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0) rotateX(0deg);
+}
+
+/* ── SCROLL PROGRESS BAR ── */
+#scroll-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  width: 0%;
+  background: linear-gradient(90deg, #22d3ee, #3b82f6, #a78bfa);
+  z-index: 200;
+  transition: width 0.1s linear;
+  box-shadow: 0 0 8px rgba(34,211,238,0.6);
+}
+
+/* ── FLOATING NAV INDICATOR ── */
+.nav-links a {
+  position: relative;
+}
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  transform: translateX(-50%) scaleX(0);
+  width: 80%;
+  height: 1.5px;
+  background: var(--cyan);
+  transition: transform 0.25s ease;
+}
+.nav-links a:hover::after,
+.nav-links a.active::after {
+  transform: translateX(-50%) scaleX(1);
+}
+
+/* ── BTN 3D press ── */
+.btn-primary, .btn-outline, .contact-link {
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s !important;
+}
+.btn-primary:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 24px rgba(59,130,246,0.35) !important;
+}
+.btn-outline:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 24px rgba(34,211,238,0.15) !important;
+}
+.contact-link:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 20px rgba(59,130,246,0.18) !important;
+}
+
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<div id="scroll-bar"></div>
+<canvas id="bg-net"></canvas>
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo"><span>Portfolio</span></div>
+    <ul class="nav-links">
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#certifications">Certifications</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-glow-2"></div>
+  <div class="container">
+    <div class="hero-eyebrow">Network & Infrastructure Engineer</div>
+    <h1 class="hero-name">Nazli<br><em>Lazuardy</em></h1>
+    <p class="hero-role">Network Engineer with strong passion in telecommunications, IP networking, and modern network infrastructure. Experienced in supporting network performance, troubleshooting connectivity issues, and maintaining reliable communication systems. Highly interested in 4G/5G technologies, IT networking, and scalable infrastructure solutions.</p>
+    <div class="hero-stats">
+      <div>
+        <div class="hero-stat-num">6+</div>
+        <div class="hero-stat-label">Years experience</div>
+      </div>
+      <div class="hero-stat-divider"></div>
+      <div>
+        <div class="hero-stat-num">24/7</div>
+        <div class="hero-stat-label">NOC operations</div>
+      </div>
+      <div class="hero-stat-divider"></div>
+      <div>
+        <div class="hero-stat-num">4</div>
+        <div class="hero-stat-label">Vendors mastered</div>
+      </div>
+      <div class="hero-stat-divider"></div>
+      <div>
+        <div class="hero-stat-num">&lt;15m</div>
+        <div class="hero-stat-label">SLA response</div>
+      </div>
+    </div>
+    <div class="hero-cta">
+      <a href="mailto:nazlilazuardy04@gmail.com" class="btn-primary">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Get in touch
+      </a>
+      <a href="https://www.linkedin.com/in/nazlilazuardy" target="_blank" class="btn-outline">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        LinkedIn
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="container">
+    <div class="section-label reveal">Work experience</div>
+    <h2 class="section-title reveal">Where I've built<br><em style="font-style:italic;color:var(--cyan)">my expertise</em></h2>
+    <div class="exp-list">
+
+      <!-- Job 1 -->
+      <div class="exp-item reveal" onclick="toggleExp(this)">
+        <div class="exp-header">
+          <div class="exp-left">
+            <div class="exp-role">DWDM/TX Analyst Support — IOH Network</div>
+            <div class="exp-company"><span class="exp-dot"></span> Huawei Tech Investment · Jakarta</div>
+          </div>
+          <div class="exp-right">
+            <span class="exp-period">Oct 2025 – Present</span>
+            <svg class="exp-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+        </div>
+        <div class="exp-body">
+          <div class="exp-body-inner">
+            <ul class="exp-highlights">
+              <li>Monitored national backbone & metro DWDM networks nationwide using Huawei NCE DWDM, ZTE EMS, Nokia DWDM</li>
+              <li>Analyzed DWDM alarms including LOS, BER, OSNR degradation, fiber optic cut, and power/PLN blackout issues</li>
+              <li>Tracked & coordinated DWDM link uplifts from request to full service normalization with SLA compliance</li>
+              <li>Produced daily, weekly, and monthly DWDM reports: outage summary, aging status, uplift progress</li>
+              <li>Managed incident escalation and participated in bridge calls / war rooms for high-severity DWDM outages</li>
+              <li>Coordinated with Regional teams, Transmission BO, vendors (Huawei, ZTE, Nokia), and IOH during critical events</li>
+            </ul>
+            <div class="exp-tools">
+              <span class="tool-chip">Huawei NCE DWDM</span>
+              <span class="tool-chip">ZTE EMS</span>
+              <span class="tool-chip">Nokia DWDM</span>
+              <span class="tool-chip">Cacti/CTMS</span>
+              <span class="tool-chip">SecureCRT</span>
+              <span class="tool-chip">Cisco AnyConnect VPN</span>
+              <span class="tool-chip">NCE-IP</span>
+              <span class="tool-chip">ZTE-IP</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Job 2 -->
+      <div class="exp-item reveal" onclick="toggleExp(this)">
+        <div class="exp-header">
+          <div class="exp-left">
+            <div class="exp-role">Datacomm Analyst Support — IOH Network</div>
+            <div class="exp-company"><span class="exp-dot"></span> Huawei Tech Investment · Jakarta</div>
+          </div>
+          <div class="exp-right">
+            <span class="exp-period">Aug 2023 – Oct 2025</span>
+            <svg class="exp-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+        </div>
+        <div class="exp-body">
+          <div class="exp-body-inner">
+            <ul class="exp-highlights">
+              <li>Monitored Datacomm incidents across IPBB, IPRAN, ISP networks in Jabodetabek, East Java, and Bali Nusra</li>
+              <li>Handled and prioritized link-down on 50G–100G routers (Cisco, Huawei, Nokia, ZTE) across national backbone</li>
+              <li>Built Excel-based tracking dashboards with pivot tables for SLA aging (4h/8h/24h) and outage trend analysis</li>
+              <li>Performed RCA categorization: fiber cut, PLN blackout, and device-related issues</li>
+              <li>Coordinated with FLP/MMP third-party providers and regional teams to accelerate ticket resolution and SLA compliance</li>
+            </ul>
+            <div class="exp-tools">
+              <span class="tool-chip">Huawei NCE-IP</span>
+              <span class="tool-chip">Cacti/CTMS</span>
+              <span class="tool-chip">SecureCRT</span>
+              <span class="tool-chip">ZTE-IP</span>
+              <span class="tool-chip">Cisco Elastic</span>
+              <span class="tool-chip">OWS</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Job 3 -->
+      <div class="exp-item reveal" onclick="toggleExp(this)">
+        <div class="exp-header">
+          <div class="exp-left">
+            <div class="exp-role">FO Wireless Engineer — IOH Network</div>
+            <div class="exp-company"><span class="exp-dot"></span> Huawei Tech Investment · Jakarta</div>
+          </div>
+          <div class="exp-right">
+            <span class="exp-period">Feb 2022 – May 2023</span>
+            <svg class="exp-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+        </div>
+        <div class="exp-body">
+          <div class="exp-body-inner">
+            <ul class="exp-highlights">
+              <li>Monitored end-to-end wireless network across West Java & Kalimantan — 2G/3G/4G LTE/5G technologies</li>
+              <li>Managed RAN infrastructure: BTS, NodeB, eNodeB, gNodeB — alarm monitoring via OWS, NetAct, U2000</li>
+              <li>Performed initial RCA to identify network faults; SLA response &lt;15 minutes for critical outages</li>
+              <li>Supported Core, RAN & Transmission teams during degradation with first-level Datacomm troubleshooting</li>
+              <li>Escalated critical incidents with 15-minute escalation cycles; handled major national outage events</li>
+            </ul>
+            <div class="exp-tools">
+              <span class="tool-chip">OWS</span>
+              <span class="tool-chip">NetAct</span>
+              <span class="tool-chip">U2000</span>
+              <span class="tool-chip">Huawei NCE-IP</span>
+              <span class="tool-chip">SecureCRT</span>
+              <span class="tool-chip">Cisco AnyConnect</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Job 4 -->
+      <div class="exp-item reveal" onclick="toggleExp(this)">
+        <div class="exp-header">
+          <div class="exp-left">
+            <div class="exp-role">FO Cloud Infra, VAS & OSS IT Engineer — H3I Network</div>
+            <div class="exp-company"><span class="exp-dot"></span> Huawei Tech Investment · Jakarta</div>
+          </div>
+          <div class="exp-right">
+            <span class="exp-period">Dec 2021 – Feb 2022</span>
+            <svg class="exp-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+        </div>
+        <div class="exp-body">
+          <div class="exp-body-inner">
+            <ul class="exp-highlights">
+              <li>Monitored Private Cloud / NFV components: VNFs, virtual firewalls, and load balancers nationwide</li>
+              <li>Handled national incidents: WIC, Dukcapil (4444), FiberNet — multi-vendor environment (Cisco, Huawei, Juniper, Fortinet)</li>
+              <li>Operated 24/7 shift supporting cloud & network ops with SLA response &lt;15 minutes</li>
+            </ul>
+            <div class="exp-tools">
+              <span class="tool-chip">NFV/VNF</span>
+              <span class="tool-chip">Cacti</span>
+              <span class="tool-chip">Cisco</span>
+              <span class="tool-chip">Huawei</span>
+              <span class="tool-chip">Juniper</span>
+              <span class="tool-chip">Fortinet</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Job 5 -->
+      <div class="exp-item reveal" onclick="toggleExp(this)">
+        <div class="exp-header">
+          <div class="exp-left">
+            <div class="exp-role">Network Operation Center Engineer — H3I Network</div>
+            <div class="exp-company"><span class="exp-dot"></span> Putra Mulia Telecommunication · Jakarta</div>
+          </div>
+          <div class="exp-right">
+            <span class="exp-period">Dec 2019 – Dec 2021</span>
+            <svg class="exp-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+        </div>
+        <div class="exp-body">
+          <div class="exp-body-inner">
+            <ul class="exp-highlights">
+              <li>End-to-end H3I network monitoring: alarm, performance, and incident handling in 24/7 shift environment</li>
+              <li>Utilized NMS tools: NetAct, U2000, Cacti for fault detection and service outage resolution</li>
+              <li>Managed trouble tickets from Huawei Front Office NOC; dispatched field engineers nationwide</li>
+              <li>Escalated unresolved incidents within 15-minute SLA cycles to supervisors and regional managers</li>
+            </ul>
+            <div class="exp-tools">
+              <span class="tool-chip">NetAct</span>
+              <span class="tool-chip">U2000</span>
+              <span class="tool-chip">Cacti</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="container">
+    <div class="section-label reveal">Capabilities</div>
+    <h2 class="section-title reveal">Technical <em style="font-style:italic;color:var(--cyan)">skill set</em></h2>
+    <div class="skills-grid">
+      <div class="skill-card reveal">
+        <div class="skill-card-header">
+          <div class="skill-icon">
+            <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </div>
+          <div class="skill-card-title">Network & Transmission</div>
+        </div>
+        <div class="skill-pills">
+          <span class="skill-pill">DWDM</span>
+          <span class="skill-pill">IPBB</span>
+          <span class="skill-pill">IPRAN</span>
+          <span class="skill-pill">ISP Backbone</span>
+          <span class="skill-pill">BGP</span>
+          <span class="skill-pill">OSPF</span>
+          <span class="skill-pill">IS-IS</span>
+          <span class="skill-pill">MPLS</span>
+          <span class="skill-pill">VLAN</span>
+          <span class="skill-pill">VRF</span>
+          <span class="skill-pill">2G/3G/4G/5G RAN</span>
+        </div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-card-header">
+          <div class="skill-icon">
+            <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          </div>
+          <div class="skill-card-title">Tools & Platforms</div>
+        </div>
+        <div class="skill-pills">
+          <span class="skill-pill">Huawei NCE DWDM</span>
+          <span class="skill-pill">NCE-IP</span>
+          <span class="skill-pill">ZTE EMS</span>
+          <span class="skill-pill">Nokia DWDM</span>
+          <span class="skill-pill">SecureCRT</span>
+          <span class="skill-pill">Cacti/CTMS</span>
+          <span class="skill-pill">NetAct</span>
+          <span class="skill-pill">U2000</span>
+          <span class="skill-pill">OWS</span>
+          <span class="skill-pill">Cisco Elastic</span>
+        </div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-card-header">
+          <div class="skill-icon">
+            <svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          </div>
+          <div class="skill-card-title">Vendors & Hardware</div>
+        </div>
+        <div class="skill-pills">
+          <span class="skill-pill">Huawei</span>
+          <span class="skill-pill">Cisco</span>
+          <span class="skill-pill">Nokia</span>
+          <span class="skill-pill">ZTE</span>
+          <span class="skill-pill">Juniper</span>
+          <span class="skill-pill">Fortinet</span>
+        </div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-card-header">
+          <div class="skill-icon">
+            <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          </div>
+          <div class="skill-card-title">Operations & Reporting</div>
+        </div>
+        <div class="skill-pills">
+          <span class="skill-pill">SLA Management</span>
+          <span class="skill-pill">Incident Escalation</span>
+          <span class="skill-pill">Root Cause Analysis</span>
+          <span class="skill-pill">Excel Dashboards</span>
+          <span class="skill-pill">Pivot Tables</span>
+          <span class="skill-pill">NOC Operations</span>
+          <span class="skill-pill">Trouble Ticketing</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section id="certifications">
+  <div class="container">
+    <div class="section-label reveal">Credentials</div>
+    <h2 class="section-title reveal">Certifications &<br><em style="font-style:italic;color:var(--cyan)">achievements</em></h2>
+    <div class="certs-grid">
+      <div class="cert-card reveal">
+        <div class="cert-badge">
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </div>
+        <div>
+          <div class="cert-name">TOEFL ITP — Score 640</div>
+          <div class="cert-meta">Elskill English Course · March 2025</div>
+        </div>
+      </div>
+      <div class="cert-card reveal">
+        <div class="cert-badge">
+          <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
+        <div>
+          <div class="cert-name">Google Cloud Fundamentals</div>
+          <div class="cert-meta">Budi Luhur University · June 2024</div>
+        </div>
+      </div>
+      <div class="cert-card reveal">
+        <div class="cert-badge">
+          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <div>
+          <div class="cert-name">Leadership Foundations</div>
+          <div class="cert-meta">LinkedIn Learning · March 2026</div>
+        </div>
+      </div>
+      <div class="cert-card reveal">
+        <div class="cert-badge">
+          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        </div>
+        <div>
+          <div class="cert-name">Excel Advanced Formulas & Functions</div>
+          <div class="cert-meta">LinkedIn Learning · March 2026</div>
+        </div>
+      </div>
+      <div class="cert-card reveal">
+        <div class="cert-badge">
+          <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        </div>
+        <div>
+          <div class="cert-name">Basic Computer Algorithm</div>
+          <div class="cert-meta">Budi Luhur University · August 2022</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="container">
+    <div class="section-label reveal">Academic background</div>
+    <h2 class="section-title reveal">Education</h2>
+    <div class="edu-cards">
+      <div class="edu-card reveal">
+        <div class="edu-badge">
+          <svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+        </div>
+        <div>
+          <div class="edu-degree">Master of Management</div>
+          <div class="edu-univ">Universitas Budi Luhur · Jakarta</div>
+          <div class="edu-period">March 2025 – Present</div>
+        </div>
+      </div>
+      <div class="edu-card reveal">
+        <div class="edu-badge">
+          <svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+        </div>
+        <div>
+          <div class="edu-degree">Bachelor of Information Technology</div>
+          <div class="edu-univ">Universitas Budi Luhur · Jakarta</div>
+          <div class="edu-period">October 2020 – September 2024</div>
+          <span class="edu-gpa">GPA 3.66 / 4.00</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-box reveal">
+      <h2 class="contact-title">Let's connect</h2>
+      <p class="contact-sub">Open to new opportunities in network operations, transmission engineering, and IT infrastructure roles.</p>
+      <div class="contact-links">
+        <a href="mailto:nazlilazuardy04@gmail.com" class="contact-link">
+          <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          nazlilazuardy04@gmail.com
+        </a>
+        <a href="tel:081806017925" class="contact-link">
+          <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.42 2 2 0 0 1 3.6 1.24h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.81a16 16 0 0 0 6.29 6.29l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          081806017925
+        </a>
+        <a href="https://www.linkedin.com/in/nazlilazuardy" target="_blank" class="contact-link">
+          <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          linkedin.com/in/nazlilazuardy
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    &copy; 2026 Nazli Lazuardy · Built for professional portfolio purposes
+  </div>
+</footer>
+
+<script>
+function toggleExp(el) {
+  el.classList.toggle('open');
+}
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.08 });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+
+<script>
+/* ================================================================
+   1. SCROLL PROGRESS BAR
+   2. NETWORK PARTICLE BACKGROUND (2D canvas — full page fixed)
+      • 75 nodes drifting in 3D-projected space
+      • Color-coded: cyan=DWDM, blue=RTR, purple=core
+      • Mouse attraction/repulsion
+      • Connecting lines fade by distance
+      • Data "pulses" travel along connections
+   3. 3D CARD TILT (mouse tracking per card)
+   4. NAV active link tracking
+================================================================ */
+
+// ── SCROLL BAR ──────────────────────────────────────────────────
+(function(){
+  var bar = document.getElementById('scroll-bar');
+  window.addEventListener('scroll', function(){
+    var pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
+    bar.style.width = Math.min(100, pct) + '%';
+  }, {passive:true});
+})();
+
+// ── NETWORK BACKGROUND ─────────────────────────────────────────
+(function(){
+  var canvas = document.getElementById('bg-net');
+  var ctx = canvas.getContext('2d');
+  var W, H, nodes = [], pulses = [];
+  var mouse = {x: -9999, y: -9999};
+  var t = 0;
+
+  var NODE_N = 72;
+  var CONNECT_DIST = 150;
+  var MOUSE_DIST = 130;
+
+  var COLORS = [
+    {r:34, g:211, b:238},   // cyan — DWDM
+    {r:59, g:130, b:246},   // blue — RTR
+    {r:167, g:139, b:250},  // purple — core
+    {r:74, g:222, b:128},   // green — active
+  ];
+
+  function resize(){
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+
+  function Node(){
+    this.x = Math.random() * W;
+    this.y = Math.random() * H;
+    // 3D depth layer
+    this.z = Math.random(); // 0=far, 1=near
+    this.vx = (Math.random() - 0.5) * 0.35;
+    this.vy = (Math.random() - 0.5) * 0.35;
+    this.r  = 1.2 + this.z * 2.2;
+    this.col = COLORS[Math.floor(Math.random() * COLORS.length)];
+    this.phase = Math.random() * Math.PI * 2;
+    this.alpha = 0.25 + this.z * 0.55;
+  }
+
+  Node.prototype.update = function(){
+    // Subtle 3D "breathing" — depth oscillates slowly
+    var breathe = Math.sin(t * 0.6 + this.phase) * 0.12;
+    var effR = this.r + breathe;
+
+    // Mouse interaction — near nodes repel
+    var dx = this.x - mouse.x, dy = this.y - mouse.y;
+    var dist = Math.sqrt(dx*dx + dy*dy);
+    if(dist < MOUSE_DIST && dist > 0){
+      var f = (MOUSE_DIST - dist) / MOUSE_DIST * 0.6;
+      this.vx += (dx / dist) * f * 0.5;
+      this.vy += (dy / dist) * f * 0.5;
+    }
+
+    // Speed limit (slower for far nodes = parallax effect)
+    var maxSpd = 0.8 + this.z * 0.6;
+    var spd = Math.sqrt(this.vx*this.vx + this.vy*this.vy);
+    if(spd > maxSpd){ this.vx *= maxSpd/spd; this.vy *= maxSpd/spd; }
+
+    this.x += this.vx * (0.5 + this.z * 0.5);
+    this.y += this.vy * (0.5 + this.z * 0.5);
+    if(this.x < -10) this.x = W+10;
+    if(this.x > W+10) this.x = -10;
+    if(this.y < -10) this.y = H+10;
+    if(this.y > H+10) this.y = -10;
+  };
+
+  Node.prototype.draw = function(){
+    var pulse = 1 + Math.sin(t * 1.4 + this.phase) * 0.25;
+    var r = this.r * pulse;
+    var c = this.col;
+    var a = this.alpha;
+
+    // Outer glow ring
+    var grd = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, r * 4);
+    grd.addColorStop(0, 'rgba('+c.r+','+c.g+','+c.b+','+(a*0.4)+')');
+    grd.addColorStop(1, 'rgba('+c.r+','+c.g+','+c.b+',0)');
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, r * 4, 0, Math.PI*2);
+    ctx.fillStyle = grd;
+    ctx.fill();
+
+    // Core dot
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, r, 0, Math.PI*2);
+    ctx.fillStyle = 'rgba('+c.r+','+c.g+','+c.b+','+a+')';
+    ctx.fill();
+
+    // Bright center
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, r * 0.4, 0, Math.PI*2);
+    ctx.fillStyle = 'rgba(255,255,255,0.6)';
+    ctx.fill();
+  };
+
+  // Data pulse that travels between nodes
+  function Pulse(nodeA, nodeB){
+    this.a = nodeA; this.b = nodeB;
+    this.progress = 0;
+    this.speed = 0.004 + Math.random() * 0.006;
+    this.col = Math.random() > 0.5 ? nodeA.col : nodeB.col;
+  }
+  Pulse.prototype.update = function(){
+    this.progress += this.speed;
+    return this.progress < 1;
+  };
+  Pulse.prototype.draw = function(){
+    var p = this.progress;
+    var x = this.a.x + (this.b.x - this.a.x) * p;
+    var y = this.a.y + (this.b.y - this.a.y) * p;
+    var c = this.col;
+    // Tail
+    var tailLen = 0.08;
+    var p2 = Math.max(0, p - tailLen);
+    var x2 = this.a.x + (this.b.x - this.a.x) * p2;
+    var y2 = this.a.y + (this.b.y - this.a.y) * p2;
+    var grad = ctx.createLinearGradient(x2, y2, x, y);
+    grad.addColorStop(0, 'rgba('+c.r+','+c.g+','+c.b+',0)');
+    grad.addColorStop(1, 'rgba('+c.r+','+c.g+','+c.b+',0.9)');
+    ctx.beginPath();
+    ctx.moveTo(x2, y2);
+    ctx.lineTo(x, y);
+    ctx.strokeStyle = grad;
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+    // Head
+    ctx.beginPath();
+    ctx.arc(x, y, 2.5, 0, Math.PI*2);
+    ctx.fillStyle = 'rgba(255,255,255,0.9)';
+    ctx.fill();
+  };
+
+  function drawConnections(){
+    for(var i=0; i<nodes.length; i++){
+      for(var j=i+1; j<nodes.length; j++){
+        var dx = nodes[i].x - nodes[j].x;
+        var dy = nodes[i].y - nodes[j].y;
+        var dist = Math.sqrt(dx*dx + dy*dy);
+        if(dist < CONNECT_DIST){
+          // Depth-based alpha — near nodes have stronger lines
+          var depthFactor = (nodes[i].z + nodes[j].z) * 0.5;
+          var a = (1 - dist/CONNECT_DIST) * 0.14 * (0.4 + depthFactor * 0.6);
+          var c = nodes[i].col;
+          ctx.beginPath();
+          ctx.moveTo(nodes[i].x, nodes[i].y);
+          ctx.lineTo(nodes[j].x, nodes[j].y);
+          ctx.strokeStyle = 'rgba('+c.r+','+c.g+','+c.b+','+a+')';
+          ctx.lineWidth = 0.5 + depthFactor * 0.5;
+          ctx.stroke();
+        }
+      }
+    }
+  }
+
+  function spawnPulse(){
+    // Find connected pairs and spawn a pulse
+    var tries = 0;
+    while(tries++ < 10){
+      var a = nodes[Math.floor(Math.random()*nodes.length)];
+      var b = nodes[Math.floor(Math.random()*nodes.length)];
+      if(a===b) continue;
+      var dx=a.x-b.x, dy=a.y-b.y;
+      if(Math.sqrt(dx*dx+dy*dy) < CONNECT_DIST){
+        pulses.push(new Pulse(a,b));
+        break;
+      }
+    }
+  }
+
+  var pulseTimer = 0;
+
+  function loop(){
+    ctx.clearRect(0,0,W,H);
+    t += 0.012;
+    pulseTimer++;
+    if(pulseTimer % 18 === 0) spawnPulse();
+    if(pulses.length > 40) pulses.shift();
+
+    drawConnections();
+
+    // Update & draw pulses
+    pulses = pulses.filter(function(p){ var alive = p.update(); if(alive) p.draw(); return alive; });
+
+    // Update & draw nodes (far first = painter's algorithm for depth)
+    nodes.sort(function(a,b){return a.z - b.z;});
+    nodes.forEach(function(n){ n.update(); n.draw(); });
+
+    requestAnimationFrame(loop);
+  }
+
+  function init(){
+    resize();
+    nodes = [];
+    for(var i=0; i<NODE_N; i++) nodes.push(new Node());
+  }
+
+  window.addEventListener('resize', function(){ resize(); init(); });
+  window.addEventListener('mousemove', function(e){
+    mouse.x = e.clientX; mouse.y = e.clientY;
+  });
+  window.addEventListener('mouseleave', function(){
+    mouse.x = -9999; mouse.y = -9999;
+  });
+
+  init();
+  loop();
+})();
+
+// ── 3D CARD TILT ────────────────────────────────────────────────
+(function(){
+  var TILT = 8; // max degrees
+
+  function addTilt(el){
+    el.addEventListener('mousemove', function(e){
+      var rect = el.getBoundingClientRect();
+      var cx = rect.left + rect.width / 2;
+      var cy = rect.top  + rect.height / 2;
+      var dx = (e.clientX - cx) / (rect.width  / 2);
+      var dy = (e.clientY - cy) / (rect.height / 2);
+      var rx = -dy * TILT;
+      var ry =  dx * TILT;
+      el.style.transform = 'perspective(800px) rotateX('+rx+'deg) rotateY('+ry+'deg) translateY(-4px)';
+    });
+    el.addEventListener('mouseleave', function(){
+      el.style.transform = '';
+      el.style.transition = 'transform 0.5s cubic-bezier(0.34,1.56,0.64,1), border-color 0.3s, box-shadow 0.3s';
+    });
+    el.addEventListener('mouseenter', function(){
+      el.style.transition = 'transform 0.1s linear, border-color 0.3s, box-shadow 0.3s';
+    });
+  }
+
+  // Apply to skill cards, cert cards, edu cards
+  function applyTilts(){
+    document.querySelectorAll('.skill-card, .cert-card, .edu-card').forEach(addTilt);
+  }
+
+  // Apply after DOM ready
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', applyTilts);
+  } else {
+    applyTilts();
+  }
+})();
+
+// ── ACCORDION ───────────────────────────────────────────────────
+function toggleExp(el){ el.classList.toggle('open'); }
+
+// ── SCROLL REVEAL ───────────────────────────────────────────────
+var obs = new IntersectionObserver(function(entries){
+  entries.forEach(function(e){
+    if(e.isIntersecting){
+      e.target.classList.add('visible');
+      // Trigger section-title underline
+      var title = e.target.querySelector ? e.target.querySelector('.section-title') : null;
+      if(title) title.classList.add('visible');
+    }
+  });
+}, {threshold: 0.08});
+
+document.querySelectorAll('.reveal').forEach(function(el){ obs.observe(el); });
+
+// Also observe section-titles directly
+document.querySelectorAll('.section-title').forEach(function(el){
+  obs.observe(el);
+});
+
+// ── NAV ACTIVE LINK ─────────────────────────────────────────────
+(function(){
+  var links = document.querySelectorAll('.nav-links a');
+  var sections = document.querySelectorAll('section[id]');
+  window.addEventListener('scroll', function(){
+    var scrollY = window.scrollY + 80;
+    sections.forEach(function(sec){
+      var top = sec.offsetTop, height = sec.offsetHeight;
+      if(scrollY >= top && scrollY < top + height){
+        links.forEach(function(l){
+          l.classList.toggle('active', l.getAttribute('href') === '#'+sec.id);
+        });
+      }
+    });
+  }, {passive:true});
+})();
+</script>
+</body>
+</html>
